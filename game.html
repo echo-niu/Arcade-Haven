@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>Arcade Haven - Play Free HTML5 Games Online</title>
+    <meta name="description" content="Discover and play a curated collection of the best free-to-play HTML5 games online. From addictive puzzles to intense action, find your next favorite game here.">
+    <meta name="keywords" content="HTML5 games, free games, online games, browser games, puzzle games, action games, arcade games, play online">
+    <link rel="canonical" href="https://www.yourdomain.com/"> <!-- ★★★ REPLACE with your actual domain ★★★ -->
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #13151a 0%, #1E1E30 100%);
+            color: #E5E7EB;
+            min-height: 100vh;
+        }
+        
+        .game-card {
+            background: rgba(30, 30, 46, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(99, 102, 241, 0.4);
+        }
+        
+        .search-input {
+            background: rgba(30, 30, 46, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #6366F1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+        }
+        
+        .game-cover-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            padding-top: 56.25%;
+            border-radius: 12px 12px 0 0;
+            background-color: #000;
+            cursor: pointer;
+        }
+        
+        .game-cover-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .game-card:hover .game-cover-container img {
+            transform: scale(1.08);
+        }
+        
+        .play-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.1) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+        
+        .game-card:hover .play-overlay {
+            opacity: 1;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0.2) 100%);
+        }
+        
+        .play-icon {
+            width: 4rem;
+            height: 4rem;
+            color: white;
+            filter: drop-shadow(0 0 8px rgba(0,0,0,0.5));
+            transition: all 0.3s ease;
+        }
+        
+        .game-card:hover .play-icon {
+            transform: scale(1.2);
+            filter: drop-shadow(0 0 12px rgba(99, 102, 241, 0.8));
+        }
+        
+        .iframe-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            padding-top: 56.25%;
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .iframe-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        
+        .game-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .game-tag {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.2);
+            color: #a5b4fc;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header-gradient {
+            background: linear-gradient(90deg, #6366F1 0%, #8B5CF6 50%, #EC4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: linear-gradient(90deg, #6366F1, #8B5CF6);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="py-4 px-4 sm:px-6 lg:px-8 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <span class="text-3xl">🎮</span>
+                <span class="text-xl font-bold text-white">Arcade Haven</span>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#" class="nav-link text-white hover:text-indigo-400">Home</a>
+                <a href="#" class="nav-link text-gray-400 hover:text-indigo-400">Categories</a>
+                <a href="#" class="nav-link text-gray-400 hover:text-indigo-400">Top Rated</a>
+                <a href="#" class="nav-link text-gray-400 hover:text-indigo-400">New Games</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="text-5xl md:text-6xl font-bold tracking-tight header-gradient mb-4">
+                Arcade Haven
+            </h1>
+            <p class="mt-4 text-xl text-gray-300 max-w-2xl mx-auto">Your portal to the best free-to-play browser games, curated for maximum fun.</p>
+        </div>
+    </header>
+
+    <!-- Search Section -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-12 relative max-w-2xl mx-auto">
+            <div class="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </div>
+            <input type="text" id="search" placeholder="Search for games by title or genre..."
+                   class="w-full block search-input rounded-full py-4 pl-14 pr-6 text-lg transition">
+        </div>
+
+        <!-- Games Grid -->
+        <div id="games-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- Game 1: Break-Fast Derby -->
+            <div class="game-card" data-title="Break-Fast Derby" data-tags="racing, derby, action, food" data-iframe-src="https://itch.io/embed/748976">
+                <div class="game-cover-container">
+                    <img src="https://placehold.co/552x310/1d1d1d/e5e7eb?text=Break-Fast+Derby&font=poppins" alt="Break-Fast Derby Cover">
+                    <div class="play-overlay">
+                        <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="p-6 game-content">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white mb-2">Break-Fast Derby</h2>
+                        <p class="text-gray-300">A chaotic food-themed racing and demolition derby game.</p>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex flex-wrap mt-3">
+                            <span class="game-tag">Racing</span>
+                            <span class="game-tag">Action</span>
+                            <span class="game-tag">Food</span>
+                        </div>
+                        <p class="mt-4 text-sm text-gray-400">Developer: Frozen Ember Production</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game 2: Scorched Ember -->
+            <div class="game-card" data-title="Scorched Ember" data-tags="action, platformer, adventure, fire" data-iframe-src="https://itch.io/embed/2474323">
+                <div class="game-cover-container">
+                    <img src="https://placehold.co/552x310/1d1d1d/e5e7eb?text=Scorched+Ember&font=poppins" alt="Scorched Ember Cover">
+                    <div class="play-overlay">
+                        <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="p-6 game-content">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white mb-2">Scorched Ember</h2>
+                        <p class="text-gray-300">An action-packed adventure where you control a fiery ember.</p>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex flex-wrap mt-3">
+                            <span class="game-tag">Action</span>
+                            <span class="game-tag">Platformer</span>
+                            <span class="game-tag">Adventure</span>
+                        </div>
+                        <p class="mt-4 text-sm text-gray-400">Developer: leartssy, NastyCat7, & others</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game 3: Emberborn -->
+            <div class="game-card" data-title="Emberborn" data-tags="adventure, rpg, fantasy, pixel art" data-iframe-src="https://itch.io/embed/2195179">
+                <div class="game-cover-container">
+                     <img src="https://placehold.co/552x310/1d1d1d/e5e7eb?text=Emberborn&font=poppins" alt="Emberborn Cover">
+                     <div class="play-overlay">
+                        <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"></path>
+                        </svg>
+                     </div>
+                </div>
+                <div class="p-6 game-content">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white mb-2">Emberborn</h2>
+                        <p class="text-gray-300">Embark on a fantasy adventure as the Emberborn.</p>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex flex-wrap mt-3">
+                            <span class="game-tag">Adventure</span>
+                            <span class="game-tag">RPG</span>
+                            <span class="game-tag">Fantasy</span>
+                        </div>
+                        <p class="mt-4 text-sm text-gray-400">Developer: ChaoticWeevil</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game 4: Mint's Ultra Adventure -->
+            <div class="game-card" data-title="Mint's Ultra Adventure" data-tags="platformer, adventure, retro, cute" data-iframe-src="https://itch.io/embed/985507">
+                <div class="game-cover-container">
+                    <img src="https://placehold.co/552x310/1d1d1d/e5e7eb?text=Mint's+Ultra+Adventure&font=poppins" alt="Mint's Ultra Adventure Cover">
+                    <div class="play-overlay">
+                        <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="p-6 game-content">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white mb-2">Mint's Ultra Adventure</h2>
+                        <p class="text-gray-300">A classic and colorful retro platforming adventure.</p>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex flex-wrap mt-3">
+                            <span class="game-tag">Platformer</span>
+                            <span class="game-tag">Adventure</span>
+                            <span class="game-tag">Retro</span>
+                        </div>
+                        <p class="mt-4 text-sm text-gray-400">Developer: Red Ember Games</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Game 5: Fantasy Forest -->
+            <div class="game-card" data-title="Fantasy Forest" data-tags="simulation, relaxing, fantasy, nature, casual" data-iframe-src="https://itch.io/embed/2265974">
+                <div class="game-cover-container">
+                    <img src="https://placehold.co/552x310/1d1d1d/e5e7eb?text=Fantasy+Forest&font=poppins" alt="Fantasy Forest Cover">
+                    <div class="play-overlay">
+                        <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="p-6 game-content">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white mb-2">Fantasy Forest</h2>
+                        <p class="text-gray-300">A peaceful and relaxing simulation in a magical forest.</p>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex flex-wrap mt-3">
+                            <span class="game-tag">Simulation</span>
+                            <span class="game-tag">Relaxing</span>
+                            <span class="game-tag">Fantasy</span>
+                        </div>
+                        <p class="mt-4 text-sm text-gray-400">Developer: IsayWhaat</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game 6: Ember -->
+            <div class="game-card" data-title="Ember" data-tags="puzzle, platformer, minimalist, atmospheric" data-iframe-src="https://itch.io/embed/161991">
+                <div class="game-cover-container">
+                    <img src="https://placehold.co/552x310/1d1d1d/e5e7eb?text=Ember&font=poppins" alt="Ember Cover">
+                    <div class="play-overlay">
+                        <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="p-6 game-content">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white mb-2">Ember</h2>
+                        <p class="text-gray-300">An atmospheric puzzle platformer about a small ember.</p>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex flex-wrap mt-3">
+                            <span class="game-tag">Puzzle</span>
+                            <span class="game-tag">Platformer</span>
+                            <span class="game-tag">Atmospheric</span>
+                        </div>
+                        <p class="mt-4 text-sm text-gray-400">Developer: exelotl</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+        <!-- No Results Message -->
+        <div id="no-results" class="hidden text-center py-16">
+            <h3 class="text-2xl font-semibold text-white">No Games Found</h3>
+            <p class="mt-2 text-gray-400">Try a different search term or clear the search to see all games.</p>
+        </div>
+
+        <!-- View More Button -->
+        <div class="mt-12 text-center">
+            <button class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-full transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-900">
+                View More Games
+            </button>
+        </div>
+    </main>
+
+    <!-- Newsletter Section -->
+    <section class="mt-24 py-12 bg-gradient-to-r from-indigo-900/30 to-purple-900/30 border-t border-b border-gray-800">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold text-white">Stay Updated</h2>
+            <p class="mt-3 text-gray-300 max-w-2xl mx-auto">Subscribe to get notified when we add new games to our collection.</p>
+            
+            <div class="mt-8 max-w-md mx-auto flex">
+                <input type="email" placeholder="Enter your email" class="flex-1 py-3 px-4 rounded-l-full bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <button class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-6 rounded-r-full transition duration-300">
+                    Subscribe
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="mt-16 py-10 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <span class="text-3xl">🎮</span>
+                    <span class="text-xl font-bold text-white">Arcade Haven</span>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-indigo-400 transition">About</a>
+                    <a href="#" class="text-gray-400 hover:text-indigo-400 transition">Contact</a>
+                    <a href="#" class="text-gray-400 hover:text-indigo-400 transition">Privacy</a>
+                    <a href="#" class="text-gray-400 hover:text-indigo-400 transition">Terms</a>
+                </div>
+            </div>
+            <div class="mt-8 text-center text-gray-500">
+                <p>&copy; <span id="year"></span> Arcade Haven. All games are the property of their respective owners.</p>
+                <p class="mt-2">This site is a curated collection and does not claim ownership of the embedded games.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for Search and "Click to Play" Functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const gamesGrid = document.getElementById('games-grid');
+
+            // "Click to Play" Logic
+            gamesGrid.addEventListener('click', function(event) {
+                const coverContainer = event.target.closest('.game-cover-container');
+                if (!coverContainer) return;
+
+                const card = coverContainer.closest('.game-card');
+                const iframeSrc = card.dataset.iframeSrc;
+                if (!iframeSrc) return;
+
+                const iframeContainer = document.createElement('div');
+                iframeContainer.className = 'iframe-container';
+                
+                const iframe = document.createElement('iframe');
+                iframe.setAttribute('frameborder', '0');
+                iframe.setAttribute('src', iframeSrc);
+                iframe.setAttribute('allowfullscreen', '');
+                
+                iframeContainer.appendChild(iframe);
+
+                card.replaceChild(iframeContainer, coverContainer);
+            });
+
+
+            // Search Functionality
+            const searchInput = document.getElementById('search');
+            const gameCards = gamesGrid.querySelectorAll('.game-card');
+            const noResultsMessage = document.getElementById('no-results');
+
+            function filterGames() {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                let visibleGames = 0;
+
+                gameCards.forEach(card => {
+                    const title = card.dataset.title.toLowerCase();
+                    const tags = card.dataset.tags.toLowerCase();
+                    
+                    if (title.includes(searchTerm) || tags.includes(searchTerm)) {
+                        card.style.display = 'flex';
+                        visibleGames++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                if (visibleGames === 0) {
+                    noResultsMessage.classList.remove('hidden');
+                } else {
+                    noResultsMessage.classList.add('hidden');
+                }
+            }
+
+            searchInput.addEventListener('input', filterGames);
+        });
+        
+        // Footer Year Script
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+</body>
+</html>
